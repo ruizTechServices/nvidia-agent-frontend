@@ -1,31 +1,31 @@
 # TODO
 
 ## Phase 0: Project Scaffolding
-- [ ] Initialize git repository
-- [ ] Create virtual environment (.venv)
-- [ ] Populate requirements.txt with pinned versions (ollama, flask, python-dotenv, pytest)
-- [ ] Create .gitignore (venv, __pycache__, .env, *.db)
-- [ ] Create .env.example with placeholder keys (OLLAMA_HOST, FLASK_SECRET_KEY, etc.)
-- [ ] Create config/settings.py — load env vars, define temperatures, DB path
-- [ ] Create types.py — shared dataclasses used by all modules:
-  - [ ] `MemoryCell` — scene, cell_type, salience, content, created_at, id (optional)
-  - [ ] `SceneSummary` — scene, summary, updated_at
-  - [ ] `ExecutionResult` — stdout, stderr, returncode
-  - [ ] `ChatMessage` — role, content, timestamp
-  - [ ] `ModelInfo` — name, size, supports_tools
-- [ ] Create exceptions.py — base exception hierarchy:
-  - [ ] `OllamaConnectionError`, `OllamaTimeoutError`
-  - [ ] `MemoryExtractionError` (invalid JSON from LLM)
-  - [ ] `SandboxSecurityError` (blocked command), `SandboxTimeoutError`
-- [ ] Set up logging config — structured, per-module loggers (used from Phase 1 onward)
-- [ ] Scaffold directory structure:
+- [x] Initialize git repository
+- [x] Create virtual environment (.venv)
+- [x] Populate requirements.txt with pinned versions (ollama, flask, python-dotenv, pytest)
+- [x] Create .gitignore (venv, __pycache__, .env, *.db)
+- [x] Create .env.example with placeholder keys (OLLAMA_HOST, FLASK_SECRET_KEY, etc.)
+- [x] Create config/settings.py — load env vars, define temperatures, DB path
+- [x] Create models.py (renamed from types.py to avoid stdlib conflict) — shared dataclasses used by all modules:
+  - [x] `MemoryCell` — scene, cell_type, salience, content, created_at, id (optional)
+  - [x] `SceneSummary` — scene, summary, updated_at
+  - [x] `ExecutionResult` — stdout, stderr, returncode
+  - [x] `ChatMessage` — role, content, timestamp
+  - [x] `ModelInfo` — name, size, supports_tools
+- [x] Create exceptions.py — base exception hierarchy:
+  - [x] `OllamaConnectionError`, `OllamaTimeoutError`
+  - [x] `MemoryExtractionError` (invalid JSON from LLM)
+  - [x] `SandboxSecurityError` (blocked command), `SandboxTimeoutError`
+- [x] Set up logging config — structured, per-module loggers (used from Phase 1 onward)
+- [x] Scaffold directory structure:
   ```
   app.py
-  types.py
+  models.py
   exceptions.py
   config/settings.py
-  ollama/client.py
-  ollama/prompts.py
+  ollama_client/client.py
+  ollama_client/prompts.py
   memory/db.py
   memory/manager.py
   memory/retrieval.py
@@ -37,22 +37,22 @@
   static/
   tests/
   ```
-- [ ] Add __init__.py files to each package
+- [x] Add __init__.py files to each package
 
-## Phase 1: Ollama Client (`ollama/`)
+## Phase 1: Ollama Client (`ollama_client/`)
 > Leaf dependency — nothing else works without this.
-- [ ] ollama/client.py — wrapper around the ollama Python library
-  - [ ] list_models() → List[ModelInfo] — scan system for all available Ollama models
-  - [ ] connect(model_name) — verify Ollama is running and model is available
-  - [ ] chat(prompt, temperature, max_tokens) — single prompt/response call
-  - [ ] chat_with_tools(prompt, tools) — tool-calling variant for agent loop
-  - [ ] embed(text) — generate embeddings (for future use)
-- [ ] ollama/prompts.py — prompt templates stored as strings/functions
-  - [ ] MEMORY_EXTRACTION_PROMPT — instruct model to produce typed JSON cells
-  - [ ] SCENE_CONSOLIDATION_PROMPT — instruct model to summarize scene in ≤100 words
-  - [ ] AGENT_SYSTEM_PROMPT — base system prompt for the WorkerAgent
-- [ ] Write test: tests/test_ollama_client.py — verify connectivity, model listing, basic response
-- [ ] Use logging and custom exceptions from Phase 0 in all functions
+- [x] ollama_client/client.py — wrapper around the ollama Python library
+  - [x] list_models() → List[ModelInfo] — scan system for all available Ollama models
+  - [x] connect(model_name) — verify Ollama is running and model is available
+  - [x] chat(prompt, temperature, max_tokens) — single prompt/response call
+  - [x] chat_with_tools(prompt, tools) — tool-calling variant for agent loop
+  - [x] embed(text) — generate embeddings (for future use)
+- [x] ollama_client/prompts.py — prompt templates stored as strings/functions
+  - [x] MEMORY_EXTRACTION_PROMPT — instruct model to produce typed JSON cells
+  - [x] SCENE_CONSOLIDATION_PROMPT — instruct model to summarize scene in ≤100 words
+  - [x] AGENT_SYSTEM_PROMPT — base system prompt for the WorkerAgent
+- [x] Write test: tests/test_ollama_client.py — verify connectivity, model listing, basic response
+- [x] Use logging and custom exceptions from Phase 0 in all functions
 
 ## Phase 2: Memory Database (`memory/db.py`)
 > Leaf dependency — pure storage, no LLM calls.
@@ -177,7 +177,7 @@
   - [ ] Average response time
   - [ ] Ollama model availability
 
-## Open Questions (resolve during implementation)
+## Open Questions (resolve during implementation) 
 - [ ] **Gap #2**: Tool-calling detection — how to identify which Ollama models support tool-calling? Probe at startup or maintain a known-good list?
 - [ ] **Gap #6**: JSON parsing robustness — test extraction prompts against the actual models the user has installed; tune prompts if needed
 - [ ] **Gap #9**: Validate FTS5 on Windows early in Phase 2 (see validation step above)
