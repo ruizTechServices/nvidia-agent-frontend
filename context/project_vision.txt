@@ -1,0 +1,31 @@
+# Vision
+
+This project is meant to commence interaction with the ollama api. I will interact with the ollama api
+and get familiar with it. I will create a frontend so that I may interact with it accordingly.
+
+I need to implement concepts from the following articles:
+ - https://vercel.com/blog/how-to-build-agents-with-filesystems-and-bash
+ - https://www.marktechpost.com/2026/02/14/how-to-build-a-self-organizing-agent-memory-system-for-long-term-ai-reasoning/?amp
+
+These articles will help me understand how to implement a self-organizing agent memory system for long-term AI reasoning and
+how to build agents with filesystems and bash.
+
+It is imperative that I implement these concepts in a way that is scalable and maintainable.
+
+I aim to focus on the following concepts:
+ - Self-organizing agent memory system for long-term AI reasoning
+ - Agents with filesystems and bash
+ - Scalability and maintainability
+ - Ollama API
+ - Flask
+ - Extreme modularization
+ - separation of concerns
+ - Clean code
+ - Documentation
+ - Testing
+ - Security
+ - Comprehensive logging
+ - Comprehensive error handling
+ - Comprehensive monitoring
+ - Virtual environment
+
