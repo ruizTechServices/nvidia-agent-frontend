@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .env
 *.db
+settings.local.*
 *.sqlite3
 workspaces/
 .pytest_cache/
