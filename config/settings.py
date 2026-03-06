@@ -25,6 +25,9 @@ SANDBOX_TIMEOUT: int = int(os.getenv("SANDBOX_TIMEOUT", "30"))
 SANDBOX_WORKSPACE_DIR: str = os.getenv("SANDBOX_WORKSPACE_DIR", "workspaces")
 SANDBOX_MAX_UPLOAD_MB: int = int(os.getenv("SANDBOX_MAX_UPLOAD_MB", "100"))
 
+# Agent tool-calling loop cap
+MAX_TOOL_ITERATIONS: int = int(os.getenv("MAX_TOOL_ITERATIONS", "5"))
+
 # LLM temperature constants
 EXTRACTION_TEMPERATURE: float = 0.1
 CONSOLIDATION_TEMPERATURE: float = 0.05

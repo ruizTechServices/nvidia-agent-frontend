@@ -158,13 +158,13 @@
 
 ## Phase 6: Worker Agent (`agents/`)
 > Depends on: All previous phases. This is the orchestrator.
-- [ ] agents/tools.py — tool definitions the agent can invoke
-  - [ ] Define bash_tool — schema describing the bash command tool for Ollama tool-calling
-  - [ ] Define memory_search_tool — schema for querying memory
-  - [ ] **Orin Nano**: Define system_status_tool — query GPU temp, RAM usage, power mode via nvidia-smi / jtop
-  - [ ] Tool dispatch: route tool calls to sandbox.executor or memory.retrieval
-- [ ] agents/worker.py — the reasoning loop
-  - [ ] run(user_message, model_name) → str
+- [x] agents/tools.py — tool definitions the agent can invoke
+  - [x] Define bash_tool — schema describing the bash command tool for Ollama tool-calling
+  - [x] Define memory_search_tool — schema for querying memory
+  - [x] **Orin Nano**: Define system_status_tool — query GPU temp, RAM usage, power mode via nvidia-smi / jtop
+  - [x] Tool dispatch: route tool calls to sandbox.executor or memory.retrieval
+- [x] agents/worker.py — the reasoning loop
+  - [x] run(user_message, model_name) → str
     1. Retrieve memory context via memory.retrieval.build_context_block()
     2. Build prompt: system prompt + memory context + user message
     3. Call ollama client with tools available
@@ -173,15 +173,15 @@
     6. Store raw conversation via memory.db.insert_conversation()
     7. Pass (user_message, response) to memory.manager.process_interaction() (non-blocking on Orin Nano)
     8. Return response
-  - [ ] Error boundaries:
+  - [x] Error boundaries:
     - Memory retrieval fails → proceed without context, log warning
     - Tool execution fails → return error to LLM, let it adapt
     - Memory extraction fails → skip storage, log error, still return response
     - Ollama unreachable → return error message to user, don't crash
     - **Orin Nano**: OOM from Ollama → catch, log, suggest smaller model or fewer concurrent requests
-  - [ ] Handle multi-turn tool calls (agent may need several bash commands in sequence)
-  - [ ] **Orin Nano**: Cap tool-call iterations (default: 5) to avoid exhausting RAM on long chains
-- [ ] Write tests: tests/test_worker_agent.py — single turn, multi-tool turn, memory integration, error recovery
+  - [x] Handle multi-turn tool calls (agent may need several bash commands in sequence)
+  - [x] **Orin Nano**: Cap tool-call iterations (default: 5) to avoid exhausting RAM on long chains
+- [x] Write tests: tests/test_worker_agent.py — single turn, multi-tool turn, memory integration, error recovery
 
 ## Phase 7: Flask Frontend (`app.py`)
 > Depends on: Phase 6 (worker agent).
