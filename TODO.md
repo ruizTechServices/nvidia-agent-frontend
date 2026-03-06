@@ -73,7 +73,7 @@
 ## Phase 2: Memory Database (`memory/db.py`)
 > Leaf dependency — pure storage, no LLM calls.
 > **Cross-platform note**: Must work on both Windows (dev) and ARM64 Ubuntu L4T (Orin Nano).
-- [ ] Validate FTS5 availability on **both** environments:
+- [x] Validate FTS5 availability on **both** environments:
   ```python
   import sqlite3
   conn = sqlite3.connect(":memory:")
@@ -81,32 +81,32 @@
   ```
   If it fails on either platform, implement LIKE-based fallback with manual tokenization.
   FTS5 is expected to work on both (standard CPython includes it), but verify on the Orin Nano's system Python.
-- [ ] memory/db.py — SQLite wrapper with schema management
-  - [ ] init_db(path) — create tables if not exist:
+- [x] memory/db.py — SQLite wrapper with schema management
+  - [x] init_db(path) — create tables if not exist:
     - `mem_cells` (id, scene, cell_type, salience, content, created_at)
     - `mem_scenes` (scene, summary, updated_at)
     - `mem_cells_fts` — FTS5 virtual table on mem_cells.content (with LIKE fallback)
     - `conversations` (id, user_msg, assistant_msg, model_used, timestamp)
-  - [ ] insert_cell(MemoryCell) → cell_id
-  - [ ] get_cells_by_scene(scene) → List[MemoryCell]
-  - [ ] search_fts(query, limit) → List[MemoryCell]
-  - [ ] get_top_salient(limit) → List[MemoryCell] — fallback retrieval
-  - [ ] upsert_scene_summary(scene, summary)
-  - [ ] get_scene_summary(scene) → SceneSummary
-  - [ ] get_all_scene_summaries() → List[SceneSummary]
-  - [ ] insert_conversation(user_msg, assistant_msg, model_used) → conversation_id
-  - [ ] get_conversations(limit, offset) → List[ChatMessage]
-- [ ] **Orin Nano constraint**: DB size cap or pruning hook — with 4–8 GB shared RAM, avoid unbounded DB growth eating into memory available for Ollama models
-  - [ ] Add `get_db_size_bytes()` utility for monitoring
-  - [ ] Add `MAX_DB_SIZE_MB` setting in config/settings.py (default: 256 MB)
-- [ ] Write tests: tests/test_memory_db.py — insert, query, FTS search, salience ranking, conversation CRUD
-- [ ] Use logging and custom exceptions from Phase 0
+  - [x] insert_cell(MemoryCell) → cell_id
+  - [x] get_cells_by_scene(scene) → List[MemoryCell]
+  - [x] search_fts(query, limit) → List[MemoryCell]
+  - [x] get_top_salient(limit) → List[MemoryCell] — fallback retrieval
+  - [x] upsert_scene_summary(scene, summary)
+  - [x] get_scene_summary(scene) → SceneSummary
+  - [x] get_all_scene_summaries() → List[SceneSummary]
+  - [x] insert_conversation(user_msg, assistant_msg, model_used) → conversation_id
+  - [x] get_conversations(limit, offset) → List[ChatMessage]
+- [x] **Orin Nano constraint**: DB size cap or pruning hook — with 4–8 GB shared RAM, avoid unbounded DB growth eating into memory available for Ollama models
+  - [x] Add `get_db_size_bytes()` utility for monitoring
+  - [x] Add `MAX_DB_SIZE_MB` setting in config/settings.py (default: 256 MB)
+- [x] Write tests: tests/test_memory_db.py — insert, query, FTS search, salience ranking, conversation CRUD
+- [x] Use logging and custom exceptions from Phase 0
 
 ## Phase 3: Memory Manager (`memory/manager.py`)
 > Depends on: Phase 1 (ollama client) + Phase 2 (memory db).
 > **Orin Nano note**: Extraction and consolidation are secondary LLM calls. On constrained hardware, these compete with the main chat inference for shared RAM. Keep prompts short and consider batching or deferring consolidation.
-- [ ] memory/manager.py — extraction and consolidation logic
-  - [ ] extract_cells(user_msg, assistant_msg) → List[MemoryCell]
+- [x] memory/manager.py — extraction and consolidation logic
+  - [x] extract_cells(user_msg, assistant_msg) → List[MemoryCell]
     - Calls ollama client with MEMORY_EXTRACTION_PROMPT
     - Robust JSON parsing layer:
       - Strip markdown code fences
@@ -115,11 +115,11 @@
       - On failure: log error, return empty list (don't crash)
     - Validate cell_type is one of: fact, plan, preference, decision, task, risk
     - Validate salience is float 0.0–1.0
-  - [ ] store_cells(cells) — insert each cell into db, then consolidate affected scenes
-  - [ ] consolidate_scene(scene) — summarize all cells for a scene via LLM (temp 0.05)
-  - [ ] process_interaction(user_msg, assistant_msg) — full pipeline: extract → store → consolidate
+  - [x] store_cells(cells) — insert each cell into db, then consolidate affected scenes
+  - [x] consolidate_scene(scene) — summarize all cells for a scene via LLM (temp 0.05)
+  - [x] process_interaction(user_msg, assistant_msg) — full pipeline: extract → store → consolidate
   - [ ] **Orin Nano**: Make extraction/consolidation async-friendly so it can run after the response is returned to the user (don't block the chat response on memory processing)
-- [ ] Write tests: tests/test_memory_manager.py — extraction parsing, malformed JSON handling, consolidation, full cycle
+- [x] Write tests: tests/test_memory_manager.py — extraction parsing, malformed JSON handling, consolidation, full cycle
 
 ## Phase 4: Memory Retrieval (`memory/retrieval.py`)
 > Depends on: Phase 2 (memory db).

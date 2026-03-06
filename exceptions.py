@@ -27,3 +27,7 @@ class SandboxSecurityError(AgentError):
 
 class SandboxTimeoutError(AgentError):
     """A sandboxed operation exceeded its time limit."""
+
+
+class MemoryDBError(AgentError):
+    """Database operation failed."""
