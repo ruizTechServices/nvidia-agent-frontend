@@ -135,26 +135,26 @@
 > Independent of memory. Can be built in parallel with Phases 3–4.
 > Threat model: protect against agent (LLM) only. User is trusted.
 > **Cross-platform note**: Dev runs on Windows (Git Bash/MINGW64), production runs on ARM64 Ubuntu. Shell commands and paths differ.
-- [ ] sandbox/executor.py — isolated command execution via subprocess
-  - [ ] execute(command, cwd, timeout) → ExecutionResult
-  - [ ] **Platform-aware command whitelist**:
+- [x] sandbox/executor.py — isolated command execution via subprocess
+  - [x] execute(command, cwd, timeout) → ExecutionResult
+  - [x] **Platform-aware command whitelist**:
     - Linux (Orin Nano): ls, grep, cat, find, head, tail, wc, awk, df, free, nvidia-smi, jtop
     - Windows (dev): dir, findstr, type, where (or rely on Git Bash providing Unix equivalents)
     - Detect platform at startup and load appropriate whitelist
-  - [ ] Block dangerous commands: rm -rf, sudo, chmod, chown, network tools, shutdown, reboot
-  - [ ] **Orin Nano additions to blocklist**: jetson_clocks, nvpmodel (power/clock manipulation)
-  - [ ] Path validation: prevent traversal above the workspace root
-  - [ ] Enforce timeout to prevent hanging processes (especially important on Orin Nano — a stuck inference + stuck subprocess = OOM)
-  - [ ] Raise SandboxSecurityError / SandboxTimeoutError from exceptions.py
-- [ ] sandbox/filesystem.py — workspace management
-  - [ ] create_workspace(name) → path — create a managed directory for uploads
-  - [ ] register_path(user_path) → path — validate and register a user-specified local path for exploration
-  - [ ] list_workspace(path) → directory listing
-  - [ ] handle_upload(file) → path — save uploaded file into managed workspace
-  - [ ] cleanup_workspace(path) — remove temporary workspaces
-  - [ ] **Orin Nano**: Respect storage constraints — check available disk space before accepting uploads
-- [ ] Write tests: tests/test_sandbox.py — allowed commands, blocked commands, path traversal rejection, timeout, upload handling
-  - [ ] Test both Linux and Windows whitelists (mock `sys.platform`)
+  - [x] Block dangerous commands: rm -rf, sudo, chmod, chown, network tools, shutdown, reboot
+  - [x] **Orin Nano additions to blocklist**: jetson_clocks, nvpmodel (power/clock manipulation)
+  - [x] Path validation: prevent traversal above the workspace root
+  - [x] Enforce timeout to prevent hanging processes (especially important on Orin Nano — a stuck inference + stuck subprocess = OOM)
+  - [x] Raise SandboxSecurityError / SandboxTimeoutError from exceptions.py
+- [x] sandbox/filesystem.py — workspace management
+  - [x] create_workspace(name) → path — create a managed directory for uploads
+  - [x] register_path(user_path) → path — validate and register a user-specified local path for exploration
+  - [x] list_workspace(path) → directory listing
+  - [x] handle_upload(file) → path — save uploaded file into managed workspace
+  - [x] cleanup_workspace(path) — remove temporary workspaces
+  - [x] **Orin Nano**: Respect storage constraints — check available disk space before accepting uploads
+- [x] Write tests: tests/test_sandbox.py — allowed commands, blocked commands, path traversal rejection, timeout, upload handling
+  - [x] Test both Linux and Windows whitelists (mock `sys.platform`)
 
 ## Phase 6: Worker Agent (`agents/`)
 > Depends on: All previous phases. This is the orchestrator.
