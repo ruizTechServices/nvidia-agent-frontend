@@ -123,13 +123,13 @@
 
 ## Phase 4: Memory Retrieval (`memory/retrieval.py`)
 > Depends on: Phase 2 (memory db).
-- [ ] memory/retrieval.py — two-tier retrieval strategy
-  - [ ] retrieve(query, limit) → List[MemoryCell]
+- [x] memory/retrieval.py — two-tier retrieval strategy
+  - [x] retrieve(query, limit) → List[MemoryCell]
     - Tier 1: FTS search on tokenized query
     - Tier 2 (fallback): salience-ranked cells if FTS returns nothing
-  - [ ] build_context_block(query) → str — assemble retrieved memories + scene summaries into a prompt-ready string
-  - [ ] **Orin Nano**: Cap context block size to respect smaller model context windows (e.g., 2048–4096 tokens for small quantized models)
-- [ ] Write tests: tests/test_memory_retrieval.py — FTS hits, salience fallback, context assembly
+  - [x] build_context_block(query) → str — assemble retrieved memories + scene summaries into a prompt-ready string
+  - [x] **Orin Nano**: Cap context block size to respect smaller model context windows (e.g., 2048–4096 tokens for small quantized models)
+- [x] Write tests: tests/test_memory_retrieval.py — FTS hits, salience fallback, context assembly
 
 ## Phase 5: Sandbox (`sandbox/`)
 > Independent of memory. Can be built in parallel with Phases 3–4.

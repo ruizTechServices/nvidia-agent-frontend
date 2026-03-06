@@ -17,6 +17,9 @@ LOG_LEVEL: str = os.getenv("LOG_LEVEL", "DEBUG")
 # Orin Nano DB size constraint — cap SQLite growth to avoid eating shared RAM
 MAX_DB_SIZE_MB: int = int(os.getenv("MAX_DB_SIZE_MB", "256"))
 
+# Memory retrieval context cap — ~500 tokens, conservative for small models
+MAX_CONTEXT_CHARS: int = int(os.getenv("MAX_CONTEXT_CHARS", "2000"))
+
 # LLM temperature constants
 EXTRACTION_TEMPERATURE: float = 0.1
 CONSOLIDATION_TEMPERATURE: float = 0.05

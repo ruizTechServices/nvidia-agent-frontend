@@ -2,5 +2,6 @@
 
 from memory.db import MemoryDB
 from memory.manager import MemoryManager
+from memory.retrieval import MemoryRetriever
 
-__all__ = ["MemoryDB", "MemoryManager"]
+__all__ = ["MemoryDB", "MemoryManager", "MemoryRetriever"]
